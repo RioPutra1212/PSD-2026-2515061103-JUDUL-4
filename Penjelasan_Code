@@ -1,0 +1,140 @@
+class GameHistoryStack:
+     Membuat class untuk menyimpan history aktivitas game menggunakan konsep stack
+
+    def __init__(self, max_size=100):
+         Method awal yang otomatis dijalankan saat object dibuat
+         max_size=100 artinya stack maksimal menyimpan 100 data
+
+        self.MAX = max_size
+         Menyimpan kapasitas maksimum stack
+
+        self.history = [None] * self.MAX
+         Membuat list kosong sesuai kapasitas stack
+
+        self.top_idx = -1
+         Menandakan stack masih kosong
+
+    def is_empty(self):
+         Method untuk mengecek apakah stack kosong
+        return self.top_idx == -1
+
+    def is_full(self):
+         Method untuk mengecek apakah stack penuh
+        return self.top_idx == self.MAX - 1
+
+    def push(self, activity):
+         Method untuk menambahkan aktivitas baru ke stack
+
+        if self.is_full():
+             Mengecek apakah stack penuh
+            print("History penuh")
+            return
+
+        self.top_idx += 1
+        Posisi top naik satu karena ada data baru
+
+        self.history[self.top_idx] = activity
+        Menyimpan aktivitas ke posisi paling atas
+
+        print(f"Aktivitas '{activity}' berhasil disimpan")
+        Menampilkan pesan bahwa data berhasil ditambahkan
+
+    def pop(self):
+        Method untuk menghapus aktivitas terakhir (undo)
+
+        if self.is_empty():
+            Mengecek apakah stack kosong
+            print("Tidak ada aktivitas untuk di-undo")
+            return
+
+        print(f"Undo aktivitas: {self.history[self.top_idx]}")
+        Menampilkan aktivitas yang dihapus
+
+        self.top_idx -= 1
+        Menghapus data dengan menurunkan posisi top
+
+    def peek(self):
+        Method untuk melihat aktivitas terakhir tanpa menghapusnya
+
+        if self.is_empty():
+            print("History kosong")
+            return
+
+        print(f"Aktivitas terakhir: {self.history[self.top_idx]}")
+        Menampilkan data paling atas stack
+
+    def display(self):
+        Method untuk menampilkan seluruh isi stack
+
+        if self.is_empty():
+            print("History kosong")
+            return
+
+        print("History aktivitas game (terbaru ke lama): ")
+
+        for i in range(self.top_idx, -1, -1):
+            Perulangan dari data paling atas sampai bawah
+            print(f"- {self.history[i]}")
+            Menampilkan setiap aktivitas
+
+
+def main():
+    Function utama program
+
+    game = GameHistoryStack()
+    Membuat object stack bernama game
+
+    pilih = 0
+    Variabel untuk menyimpan pilihan menu
+
+    while pilih != 5:
+        Program berjalan terus sampai user memilih 5
+
+        print("\n=== HISTORY AKTIVITAS GAME ===")
+        print("1. Tambah Aktivitas")
+        print("2. Undo Aktivitas")
+        print("3. Lihat Aktivitas Terakhir")
+        print("4. Tampilkan History")
+        print("5. Keluar")
+
+        try:
+            Digunakan agar program tidak error saat input salah
+            pilih = int(input("Pilih menu: "))
+
+        except ValueError:
+            print("Input tidak valid!")
+            continue
+
+        if pilih == 1:
+            Jika user memilih tambah aktivitas
+
+            aktivitas = input("Masukkan aktivitas game: ")
+
+            game.push(aktivitas)
+            Menambahkan aktivitas ke stack
+
+        elif pilih == 2:
+            Jika user memilih undo aktivitas
+            game.pop()
+
+        elif pilih == 3:
+            Jika user memilih melihat aktivitas terakhir
+            game.peek()
+
+        elif pilih == 4:
+            Jika user memilih menampilkan history
+            game.display()
+
+        elif pilih == 5:
+            Jika user memilih keluar
+            print("Program selesai.")
+
+        else:
+            Jika pilihan menu tidak tersedia
+            print("Pilihan tidak valid!")
+
+
+if __name__ == "__main__":
+    Mengecek apakah file dijalankan langsung
+    main()
+    Menjalankan function utama
