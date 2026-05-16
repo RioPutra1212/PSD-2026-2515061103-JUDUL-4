@@ -1,0 +1,86 @@
+class GameHistoryStack:
+    def __init__(self, max_size=100):
+        self.MAX = max_size
+        self.history = [None] * self.MAX
+        self.top_idx = -1
+
+    def is_empty(self):
+        return self.top_idx == -1
+
+    def is_full(self):
+        return self.top_idx == self.MAX - 1
+
+    def push(self, activity):
+        if self.is_full():
+            print("History penuh")
+            return
+
+        self.top_idx += 1
+        self.history[self.top_idx] = activity
+        print(f"Aktivitas '{activity}' berhasil disimpan")
+
+    def pop(self):
+        if self.is_empty():
+            print("Tidak ada aktivitas untuk di-undo")
+            return
+
+        print(f"Undo aktivitas: {self.history[self.top_idx]}")
+        self.top_idx -= 1
+
+    def peek(self):
+        if self.is_empty():
+            print("History kosong")
+            return
+
+        print(f"Aktivitas terakhir: {self.history[self.top_idx]}")
+
+    def display(self):
+        if self.is_empty():
+            print("History kosong")
+            return
+
+        print("History aktivitas game (terbaru ke lama): ")
+        for i in range(self.top_idx, -1, -1):
+            print(f"- {self.history[i]}")
+
+
+def main():
+    game = GameHistoryStack()
+    pilih = 0
+
+    while pilih != 5:
+        print("\n=== HISTORY AKTIVITAS GAME ===")
+        print("1. Tambah Aktivitas")
+        print("2. Undo Aktivitas")
+        print("3. Lihat Aktivitas Terakhir")
+        print("4. Tampilkan History")
+        print("5. Keluar")
+
+        try:
+            pilih = int(input("Pilih menu: "))
+        except ValueError:
+            print("Input tidak valid!")
+            continue
+
+        if pilih == 1:
+            aktivitas = input("Masukkan aktivitas game: ")
+            game.push(aktivitas)
+
+        elif pilih == 2:
+            game.pop()
+
+        elif pilih == 3:
+            game.peek()
+
+        elif pilih == 4:
+            game.display()
+
+        elif pilih == 5:
+            print("Program selesai.")
+
+        else:
+            print("Pilihan tidak valid!")
+
+
+if __name__ == "__main__":
+    main()
